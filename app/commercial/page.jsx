@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/home/Navbar';
 import Footer from '@/components/home/Footer';
@@ -8,7 +8,7 @@ import BuyHeader from '@/components/buy-page/BuyHeader';
 import FilterBar from '@/components/buy-page/FilterBar';
 import PropertyGrid from '@/components/buy-page/PropertyGrid';
 
-export default function CommercialPage() {
+function CommercialPageContent() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
@@ -82,5 +82,13 @@ export default function CommercialPage() {
       
       <Footer />
     </main>
+  );
+}
+
+export default function CommercialPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-white" />}>
+      <CommercialPageContent />
+    </Suspense>
   );
 }
