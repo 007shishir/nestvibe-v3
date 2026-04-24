@@ -1,0 +1,17 @@
+
+> nestvibe-v3@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.3
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/api/leads/route.js
+Module not found: Can't resolve '@/lib/mongodb'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors

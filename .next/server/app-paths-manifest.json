@@ -1,0 +1,10 @@
+{
+  "/page": "app/page.js",
+  "/auth/page": "app/auth/page.js",
+  "/properties/[id]/page": "app/properties/[id]/page.js",
+  "/buy/page": "app/buy/page.js",
+  "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/api/properties/route": "app/api/properties/route.js",
+  "/api/properties/[id]/route": "app/api/properties/[id]/route.js",
+  "/admin/page": "app/admin/page.js"
+}
