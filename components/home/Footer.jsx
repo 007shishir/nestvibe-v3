@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Link } from "@heroui/react";
+import { Image, Link } from "@heroui/react";
 import {
   Home,
   MapPin,
@@ -17,17 +17,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
-            <Link href="/" className="text-2xl font-bold flex items-center gap-2 text-white mb-6">
-              <div className="w-8 h-8 bg-[#005162] rounded flex items-center justify-center">
-                <Home className="text-white w-5 h-5" />
-              </div>
-              Nest<span className="text-[#005162]">Vibe</span>
+            <Link href="/" className="flex gap-2 mb-2">
+              <Image src="/logo.png" alt="NestVibe Logo" width={150}  />
             </Link>
             <p className="text-sm leading-relaxed mb-6">
               The leading real estate marketplace in Dhaka, providing digital solutions for property seekers and Owners.
             </p>
             <div className="flex gap-4">
-              <Link href="https://www.facebook.com/" target="_blank"><Facebook className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
+              <Link href="https://www.facebook.com/bdNestVibe" target="_blank"><Facebook className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
               <Link href="https://www.linkedin.com/" target="_blank"><Linkedin className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
               <Link href="https://www.instagram.com/" target="_blank"><Instagram className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
               <Link href="https://www.youtube.com/" target="_blank"><Youtube className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
@@ -40,7 +37,7 @@ export default function Footer() {
               <li><Link href="/about" className="text-slate-300 hover:text-white">About Us</Link></li>
               <li><Link href="/contact" className="text-slate-300 hover:text-white">Contact Us</Link></li>
               <li><Link href="/blog" className="text-slate-300 hover:text-white">Our Blog</Link></li>
-              <li><Link href="/terms" className="text-slate-300 hover:text-white">Terms of Use</Link></li>
+              <li><Link href="/terms-of-use" className="text-slate-300 hover:text-white">Terms of Use</Link></li>
             </ul>
           </div>
 
@@ -70,8 +67,8 @@ export default function Footer() {
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium">
           <p>© 2026 NestVibe. All rights reserved.</p>
           <div className="flex gap-6">
-            <span>Privacy Policy</span>
-            <span>Cookie Policy</span>
+            <Link href="/privacy-policy" className="text-slate-300 hover:text-white">Privacy Policy</Link>
+            <Link href="/cookie-policy" className="text-slate-300 hover:text-white">Cookie Policy</Link>
           </div>
         </div>
       </div>

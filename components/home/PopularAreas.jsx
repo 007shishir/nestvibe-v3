@@ -12,7 +12,7 @@ const popularAreas = [
 
 export default function PopularAreas() {
   return (
-    <section className="py-20 bg-slate-50 px-6">
+    <section className="py-10 bg-slate-50 px-6">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Popular Search Areas</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

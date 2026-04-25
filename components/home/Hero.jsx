@@ -1,15 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Button, Input, Tab, Tabs } from "@heroui/react";
-import { useRouter } from 'next/navigation';
-import {
-  Search,
-  Bell,
-  Heart,
-  CircleDollarSign,
-  Inbox
-} from "lucide-react";
+import React, { useState } from "react";
+import { Button, Input, Link, Tab, Tabs } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { Search, Bell, Heart, CircleDollarSign, Inbox } from "lucide-react";
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState("buy");
@@ -25,11 +19,11 @@ export default function Hero() {
   };
 
   const sidebarItems = [
-    { icon: Search, label: "Search" },
-    { icon: Bell, label: "Updates" },
-    { icon: Heart, label: "Favorites" },
-    { icon: CircleDollarSign, label: "Home Loans" },
-    { icon: Inbox, label: "Inbox" }
+    { icon: Search, label: "Search", link: "/buy" },
+    { icon: Bell, label: "Updates", link: "/auth" },
+    { icon: Heart, label: "Favorites", link: "/auth" },
+    { icon: CircleDollarSign, label: "Home Loans", link: "/home-loans" },
+    { icon: Inbox, label: "Inbox", link: "/auth" },
   ];
 
   return (
@@ -37,14 +31,22 @@ export default function Hero() {
       {/* Sidebar Menu - Kept as requested */}
       <aside className="hidden md:flex w-20 border-r border-slate-200 flex-col items-center py-6 gap-8 bg-white z-20">
         {sidebarItems.map((item, idx) => (
-          <div key={idx} className="flex flex-col items-center gap-1 cursor-pointer group">
-            <div className="p-2 rounded-lg group-hover:bg-slate-100 transition-colors">
-              <item.icon className="w-5 h-5 text-slate-700" />
+          <Link
+            href={item.link || "#"}
+            className="text-slate-500 hover:text-primary transition-colors"
+          >
+            <div
+              key={idx}
+              className="flex flex-col items-center gap-1 cursor-pointer group"
+            >
+              <div className="p-2 rounded-lg group-hover:bg-slate-100 transition-colors">
+                <item.icon className="w-5 h-5 text-slate-700" />
+              </div>
+              <span className="text-[10px] font-medium text-slate-500 uppercase tracking-tight">
+                {item.label}
+              </span>
             </div>
-            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-tight">
-              {item.label}
-            </span>
-          </div>
+          </Link>
         ))}
       </aside>
 
@@ -78,7 +80,7 @@ export default function Hero() {
                   tabList: "gap-8 relative rounded-none p-0 border-none",
                   cursor: "w-full bg-white h-[3px]",
                   tab: "max-w-fit px-0 h-12 text-lg font-bold text-white/60 hover:text-white transition-colors",
-                  tabContent: "group-data-[selected=true]:text-white"
+                  tabContent: "group-data-[selected=true]:text-white",
                 }}
               >
                 <Tab key="buy" title="Buy" />
@@ -96,7 +98,7 @@ export default function Hero() {
                 <Input
                   value={searchQuery}
                   onValueChange={setSearchQuery}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   placeholder="e.g. 'Gulshan', 'Dhanmondi' or 'Airport Station'"
                   variant="flat"
                   size="lg"
@@ -104,7 +106,9 @@ export default function Hero() {
                     inputWrapper: "bg-white h-14 rounded-xl px-4",
                     input: "text-slate-900 font-medium",
                   }}
-                  startContent={<Search className="w-5 h-5 text-slate-400 mr-2" />}
+                  startContent={
+                    <Search className="w-5 h-5 text-slate-400 mr-2" />
+                  }
                 />
               </div>
               <Button

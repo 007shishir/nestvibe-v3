@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, CardBody, Link, Input } from "@heroui/react";
 import { MessageCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 import QuickInquiry from './QuickInquiry';
+import PropertyCard from './propertyCard/PropertyCard';
 
 export default function TrendingProperties() {
   const [properties, setProperties] = useState([]);
@@ -30,7 +31,7 @@ export default function TrendingProperties() {
   }, [activeTab]);
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto">
+    <section className="py-10 px-6 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
           Trending Properties in Bangladesh
@@ -66,69 +67,7 @@ export default function TrendingProperties() {
           ))
         ) : (
           properties.map((prop) => (
-            <Card key={prop._id} className="border border-slate-100 shadow-none hover:shadow-md transition-shadow overflow-hidden">
-              <CardBody className="p-0 flex flex-row">
-                <div className="w-1/3 min-w-[120px] relative h-full min-h-[160px]">
-                  <img 
-                    src={prop.image} 
-                    alt={prop.title} 
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-2 left-2 flex gap-1 z-10">
-                    <div className="bg-[#005162] text-white text-[8px] font-bold px-2 py-0.5 rounded shadow-sm">
-                      {prop.type.toUpperCase()}
-                    </div>
-                    <div className="bg-slate-900/80 backdrop-blur-sm text-white text-[8px] font-bold px-2 py-0.5 rounded shadow-sm">
-                      {prop.category.toUpperCase()}
-                    </div>
-                  </div>
-                  {prop.verified && (
-                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm p-1 rounded-full shadow-lg border border-green-100 z-10">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 fill-green-50" />
-                    </div>
-                  )}
-                </div>
-                <div className="w-2/3 p-4 flex flex-col justify-between">
-                  <div>
-                    <p className="font-bold text-slate-900 text-lg">
-                      {prop.price} {prop.type === 'Buy' && <span className="text-sm font-normal text-slate-500 ml-1">Total Price</span>}
-                    </p>
-                    <h3 className="text-[13px] text-slate-600 line-clamp-1 mt-1 font-medium">
-                      {prop.title}
-                    </h3>
-                    <p className="text-[12px] text-slate-400 mt-1">
-                      {prop.location}
-                    </p>
-                  </div>
-                  
-                  <div className="flex gap-2 mt-4">
-                    <Button 
-                      size="sm" 
-                      variant="bordered" 
-                      className="border-slate-200 text-slate-900 font-bold flex-grow text-xs h-10"
-                    >
-                      VIEW DETAILS
-                    </Button>
-                    <a 
-                      href={`https://wa.me/8801749045892?text=${encodeURIComponent(`Hi NestVibe! I'm interested in "${prop.title}" priced at ${prop.price} located in ${prop.location}.\n\nProperty Link: ${typeof window !== 'undefined' ? window.location.origin : ''}/properties/${prop._id}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button 
-                        size="sm" 
-                        variant="flat" 
-                        isIconOnly
-                        className="bg-green-50 text-green-500 min-w-[44px] h-11"
-                      >
-                        <MessageCircle className="w-5 h-5 fill-green-500/10" />
-                      </Button>
-                    </a>
-                  </div>
-
-                  <QuickInquiry compact={true} />
-                </div>
-              </CardBody>
-            </Card>
+            <PropertyCard key={prop._id} prop={prop} />
           ))
         )}
       </div>

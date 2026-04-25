@@ -30,10 +30,10 @@ export default function Navbar() {
       {/* Top Header */}
       <div className="bg-slate-900 text-white text-[12px] py-2 px-8 hidden md:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex gap-4">
-            <span>Valuation Tool</span>
-            <span>Home Loans</span>
-            <span>Blog</span>
+          <div className="flex gap-4 text-white">
+            <span><Link href="/validation" className="text-white hover:text-[#00f0c0]">Property Validation</Link></span>
+            <span><Link href="/home-loans" className="text-white hover:text-[#00f0c0]">Home Loans</Link></span>
+            <span><Link href="/blog" className="text-white hover:text-[#00f0c0]">Blog</Link></span>
           </div>
           <div className="flex gap-4">
             {user ? (
@@ -64,7 +64,7 @@ export default function Navbar() {
           </div>
           <div className="flex items-center gap-4">
             <Button color="primary" variant="solid" className="hidden md:flex bg-[#005162] text-white font-semibold rounded-full">
-              SELL YOUR PROPERTY
+              <Link href="/sell-your-property" className="text-white">SELL YOUR PROPERTY</Link>
             </Button>
             <button className="lg:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X /> : <Menu />}
@@ -79,7 +79,7 @@ export default function Navbar() {
             <Link href="/rent" className="block text-slate-600 font-medium">RENT</Link>
             <Link href="/commercial" className="block text-slate-600 font-medium">COMMERCIAL</Link>
             <Link href="/pricing" className="block text-slate-600 font-medium">PRICING</Link>
-            <Button color="primary" className="w-full bg-[#005162] text-white">SELL YOUR PROPERTY</Button>
+            <Button color="primary" className="w-full bg-[#005162] text-white"><Link href="/sell-your-property" className="text-white">SELL YOUR PROPERTY</Link></Button>
           </div>
         )}
       </nav>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button, Card, CardBody } from "@heroui/react";
+import { Button, Card, CardBody, Link } from "@heroui/react";
 import { MapPin, PiggyBank } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -37,7 +37,7 @@ export default function AuthCTA() {
   }, []);
 
   return (
-    <section className="py-20 bg-white px-6">
+    <section className="py-6 bg-white px-6 ">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12">
         {/* Left Side: Text and CTA */}
         <div className="text-center md:text-left space-y-6">
@@ -53,7 +53,9 @@ export default function AuthCTA() {
             size="lg"
             className="px-10 font-bold border-2"
           >
-            Sign in
+            <Link href="/auth" className="text-inherit">
+              Sign in
+            </Link>
           </Button>
         </div>
 

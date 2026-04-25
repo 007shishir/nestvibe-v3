@@ -28,7 +28,7 @@ export default function FeaturedProperties() {
   }, []);
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto">
+    <section className="py-10 px-6 max-w-7xl mx-auto">
       <div className="flex justify-between items-end mb-10">
         <div>
           <h2 className="text-3xl font-bold text-slate-900 mb-2">Featured Properties</h2>
