@@ -1,6 +1,7 @@
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { HeroUIProvider } from "@heroui/react";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -15,7 +16,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable} font-sans antialiased bg-white text-slate-900`}>
         <HeroUIProvider>
-          {children}
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+            {children}
+          </Suspense>
         </HeroUIProvider>
       </body>
     </html>
