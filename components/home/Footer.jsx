@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 import { Image, Link } from "@heroui/react";
+import LocationList from "@/components/home/footer/LocationList.jsx";
 import {
   Home,
   MapPin,
   Facebook,
   Instagram,
   Youtube,
-  Linkedin
+  Linkedin,
 } from "lucide-react";
 
 export default function Footer() {
@@ -18,16 +19,25 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
             <Link href="/" className="flex gap-2 mb-2">
-              <Image src="/logo.png" alt="NestVibe Logo" width={150}  />
+              <Image src="/logo.png" alt="NestVibe Logo" width={150} />
             </Link>
             <p className="text-sm leading-relaxed mb-6">
-              The leading real estate marketplace in Dhaka, providing digital solutions for property seekers and Owners.
+              The leading real estate marketplace in Dhaka, providing digital
+              solutions for property seekers and Owners.
             </p>
             <div className="flex gap-4">
-              <Link href="https://www.facebook.com/bdNestVibe" target="_blank"><Facebook className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
-              <Link href="https://www.linkedin.com/" target="_blank"><Linkedin className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
-              <Link href="https://www.instagram.com/" target="_blank"><Instagram className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
-              <Link href="https://www.youtube.com/" target="_blank"><Youtube className="w-5 h-5 hover:text-[#005162] cursor-pointer" /></Link>
+              <Link href="https://www.facebook.com/bdNestVibe" target="_blank">
+                <Facebook className="w-5 h-5 hover:text-[#005162] cursor-pointer" />
+              </Link>
+              <Link href="https://www.linkedin.com/" target="_blank">
+                <Linkedin className="w-5 h-5 hover:text-[#005162] cursor-pointer" />
+              </Link>
+              <Link href="https://www.instagram.com/" target="_blank">
+                <Instagram className="w-5 h-5 hover:text-[#005162] cursor-pointer" />
+              </Link>
+              <Link href="https://www.youtube.com/" target="_blank">
+                <Youtube className="w-5 h-5 hover:text-[#005162] cursor-pointer" />
+              </Link>
             </div>
           </div>
 
@@ -43,12 +53,7 @@ export default function Footer() {
 
           <div>
             <h4 className="text-white font-bold mb-6">POPULAR SEARCHES</h4>
-            <ul className="space-y-4 text-sm">
-              <li><Link href="/gulshan" className="text-slate-300 hover:text-white">Properties in Gulshan</Link></li>
-              <li><Link href="/banani" className="text-slate-300 hover:text-white">Properties in Banani</Link></li>
-              <li><Link href="/bashundhara" className="text-slate-300 hover:text-white">Bashundhara R/A</Link></li>
-              <li><Link href="/dhanmondi" className="text-slate-300 hover:text-white">Flats in Dhanmondi</Link></li>
-            </ul>
+            <LocationList />
           </div>
 
           <div>
@@ -67,8 +72,18 @@ export default function Footer() {
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium">
           <p>© 2026 NestVibe. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/privacy-policy" className="text-slate-300 hover:text-white">Privacy Policy</Link>
-            <Link href="/cookie-policy" className="text-slate-300 hover:text-white">Cookie Policy</Link>
+            <Link
+              href="/privacy-policy"
+              className="text-slate-300 hover:text-white"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/cookie-policy"
+              className="text-slate-300 hover:text-white"
+            >
+              Cookie Policy
+            </Link>
           </div>
         </div>
       </div>

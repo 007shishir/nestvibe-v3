@@ -20,28 +20,31 @@ function BuyPageContent() {
   const category = searchParams.get('category');
 
   useEffect(() => {
-    const fetchProperties = async () => {
-      setLoading(true);
-      try {
-        let url = '/api/properties?type=buy';
-        if (search) url += `&search=${encodeURIComponent(search)}`;
-        if (minPrice) url += `&minPrice=${minPrice}`;
-        if (maxPrice) url += `&maxPrice=${maxPrice}`;
-        if (beds) url += `&beds=${beds}`;
-        if (baths) url += `&baths=${baths}`;
-        if (category) url += `&category=${category}`;
+const fetchProperties = async () => {
+  setLoading(true);
+  try {
+    const params = new URLSearchParams();
+    params.set('type', 'buy'); // Hardcoded for this page
+    
+    if (search) params.set('search', search);
+    if (minPrice) params.set('minPrice', minPrice);
+    if (maxPrice) params.set('maxPrice', maxPrice);
+    if (beds) params.set('beds', beds);
+    if (baths) params.set('baths', baths);
+    if (category) params.set('category', category);
 
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.success) {
-          setProperties(data.properties);
-        }
-      } catch (error) {
-        console.error('Failed to fetch properties:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const res = await fetch(`/api/properties?${params.toString()}`);
+    const data = await res.json();
+    
+    if (data.success) {
+      setProperties(data.properties);
+    }
+  } catch (error) {
+    console.error('Failed to fetch properties:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
     fetchProperties();
   }, [search, minPrice, maxPrice, beds, baths, category]);

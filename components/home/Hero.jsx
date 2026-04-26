@@ -32,13 +32,11 @@ export default function Hero() {
       <aside className="hidden md:flex w-20 border-r border-slate-200 flex-col items-center py-6 gap-8 bg-white z-20">
         {sidebarItems.map((item, idx) => (
           <Link
+            key={idx}
             href={item.link || "#"}
             className="text-slate-500 hover:text-primary transition-colors"
           >
-            <div
-              key={idx}
-              className="flex flex-col items-center gap-1 cursor-pointer group"
-            >
+            <div className="flex flex-col items-center gap-1 cursor-pointer group">
               <div className="p-2 rounded-lg group-hover:bg-slate-100 transition-colors">
                 <item.icon className="w-5 h-5 text-slate-700" />
               </div>
@@ -59,13 +57,24 @@ export default function Hero() {
           }}
         />
 
-        <div className="relative z-10 text-center mb-8">
-          <h1 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg mb-2">
-            <span className="text-[#00f0c0]">believe</span> in finding it
+        <div className="relative z-10 text-center mb-10 group">
+          {/* Subtle dark glow behind the entire text block */}
+          <div className="absolute inset-0 bg-black/20 blur-3xl rounded-full -z-10 scale-150 opacity-50" />
+
+          <h1 className="text-2xl md:text-6xl font-black text-white leading-tight mb-4">
+            <span className="text-[#00f0c0] drop-shadow-[0_0_10px_rgba(0,240,192,0.4)]">
+              believe
+            </span>{" "}
+            in finding it
           </h1>
-          <p className="text-white text-lg md:text-xl font-semibold drop-shadow-md">
-            with Bangladesh's largest choice of homes
-          </p>
+
+          <div className="inline-block relative">
+            <p className="text-white text-md md:text-lg font-semibold tracking-wide uppercase">
+              with Bangladesh's largest choice of homes
+            </p>
+            {/* Animated underline to draw the eye */}
+            <div className="h-1 w-24 bg-[#00f0c0] mx-auto mt-2 rounded-full shadow-[0_0_8px_#00f0c0]" />
+          </div>
         </div>
 
         {/* Search Card */}
