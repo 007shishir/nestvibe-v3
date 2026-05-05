@@ -55,5 +55,6 @@ module.exports = {
         },
       },
     }),
+    require("daisyui"),
   ],
 };

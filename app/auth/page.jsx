@@ -37,7 +37,7 @@ export default function AuthPage() {
 
       if (res.ok) {
         // Success
-        router.push('/');
+        router.push('/admin');
         router.refresh();
       } else {
         setError(data.error || "Something went wrong.");
