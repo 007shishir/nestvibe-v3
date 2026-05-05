@@ -17,7 +17,8 @@ export default function ProfessionalAgreement() {
 
   const [doc, setDoc] = useState({
     date: "২৯ এপ্রিল, ২০২৬",
-    ownerName: "মোরশেদ আলম",
+    ownerName: "এবিসি রিয়েল এস্টেট লিমিটেড",
+    personName: "মোরশেদ আলম",
     repName: "ব্যবস্থাপনা পরিচালক",
     address: "মোহাম্মদপুর, ঢাকা",
     projectName: "স্বর্ণকুঞ্জ",
@@ -104,9 +105,22 @@ export default function ProfessionalAgreement() {
               <p className="text-[10px] uppercase tracking-[0.3em] text-slate-400">Real Estate Solutions</p>
             </div>
             <div className="text-right">
-              <p className="text-sm font-bold">তারিখ:
-                {isEditing ? <Input size="sm" variant="bordered" className="w-40 inline-block ml-2" value={doc.date} onChange={(e) => setDoc({ ...doc, date: e.target.value })} /> : ` ${doc.date}`}
-              </p>
+              <div className="text-sm font-bold flex items-center justify-end gap-2">
+                তারিখ:
+                {isEditing ? (
+                  <Input
+                    size="sm"
+                    variant="bordered"
+                    className="w-40"
+                    placeholder="তারিখ লিখুন..."
+                    classNames={{ input: "placeholder:opacity-10" }}
+                    value={doc.date}
+                    onChange={(e) => setDoc({ ...doc, date: e.target.value })}
+                  />
+                ) : (
+                  <span> {doc.date}</span>
+                )}
+              </div>
             </div>
           </div>
 
@@ -128,22 +142,65 @@ export default function ProfessionalAgreement() {
               </div>
 
               {isEditing ? (
-                <div className="bg-slate-50 p-8 rounded-lg border-2 border-dashed border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
-                  <Input label="মালিকের নাম" labelPlacement="outside" placeholder="মালিকের নাম লিখুন" variant="bordered" value={doc.ownerName} onChange={(e) => setDoc({ ...doc, ownerName: e.target.value })} />
+                <div className="bg-slate-50 p-8 rounded-lg border-2 border-dashed border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-bold text-slate-700">
+                      {ownerType === "company" ? "কোম্পানির নাম:" : "মালিকের নাম:"}
+                    </label>
+                    <Input
+                      variant="bordered"
+                      placeholder={ownerType === "company" ? "কোম্পানির নাম লিখুন..." : "মালিকের নাম লিখুন..."}
+                      classNames={{ input: "placeholder:opacity-10" }}
+                      value={doc.ownerName}
+                      onChange={(e) => setDoc({ ...doc, ownerName: e.target.value })}
+                    />
+                  </div>
                   {ownerType === "company" && (
-                    <Input label="প্রতিনিধির নাম / পদবী" labelPlacement="outside" placeholder="পদবী লিখুন" variant="bordered" value={doc.repName} onChange={(e) => setDoc({ ...doc, repName: e.target.value })} />
+                    <>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-sm font-bold text-slate-700">ব্যক্তির নাম:</label>
+                        <Input
+                          variant="bordered"
+                          placeholder="প্রতিনিধির নাম লিখুন..."
+                          classNames={{ input: "placeholder:opacity-10" }}
+                          value={doc.personName}
+                          onChange={(e) => setDoc({ ...doc, personName: e.target.value })}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-sm font-bold text-slate-700">পদবী:</label>
+                        <Input
+                          variant="bordered"
+                          placeholder="পদবী (যেমন: ব্যবস্থাপনা পরিচালক)..."
+                          classNames={{ input: "placeholder:opacity-10" }}
+                          value={doc.repName}
+                          onChange={(e) => setDoc({ ...doc, repName: e.target.value })}
+                        />
+                      </div>
+                    </>
                   )}
-                  <Input label={ownerType === "company" ? "কার্যালয়ের ঠিকানা" : "বাসার ঠিকানা"} labelPlacement="outside" placeholder="ঠিকানা লিখুন" className="md:col-span-2" variant="bordered" value={doc.address} onChange={(e) => setDoc({ ...doc, address: e.target.value })} />
+                  <div className="flex flex-col gap-2 md:col-span-2">
+                    <label className="text-sm font-bold text-slate-700">
+                      {ownerType === "company" ? "কার্যালয়ের ঠিকানা:" : "বাসার ঠিকানা:"}
+                    </label>
+                    <Input
+                      variant="bordered"
+                      placeholder="বিস্তারিত ঠিকানা লিখুন..."
+                      classNames={{ input: "placeholder:opacity-10" }}
+                      value={doc.address}
+                      onChange={(e) => setDoc({ ...doc, address: e.target.value })}
+                    />
+                  </div>
                 </div>
               ) : (
                 <p>
                   {ownerType === "company" ? (
                     <span>
-                      <span className="font-bold text-slate-900">{doc.ownerName}</span>, যার পক্ষে এর ব্যবস্থাপনা পরিচালক/অনুমোদিত স্বাক্ষরকারী <span className="font-bold text-slate-900">{doc.repName}</span>, যার প্রধান কার্যালয় <span className="font-bold text-slate-900">{doc.address}</span>-তে অবস্থিত, যাদেরকে পরবর্তীতে <span className="italic">"মালিক"</span> (দ্বিতীয় পক্ষ) হিসেবে অভিহিত করা হবে।
+                      <span className="font-bold text-slate-900">{doc.ownerName}</span>-এর পক্ষে এর <span className="font-bold text-slate-900">{doc.repName}</span> <span className="font-bold text-slate-900">{doc.personName}</span>, যার প্রধান কার্যালয় <span className="font-bold text-slate-900">{doc.address}</span>-তে অবস্থিত; যাদেরকে পরবর্তীতে <span className="italic">'মালিক'</span> (দ্বিতীয় পক্ষ) হিসেবে অভিহিত করা হবে।
                     </span>
                   ) : (
                     <span>
-                      <span className="font-bold text-slate-900">{doc.ownerName}</span>, যার বর্তমান ঠিকানা <span className="font-bold text-slate-900">{doc.address}</span>, যাদেরকে পরবর্তীতে <span className="italic">"মালিক"</span> (দ্বিতীয় পক্ষ) হিসেবে অভিহিত করা হবে।
+                      <span className="font-bold text-slate-900">{doc.ownerName}</span>, যার বর্তমান ঠিকানা <span className="font-bold text-slate-900">{doc.address}</span>, যাদেরকে পরবর্তীতে <span className="italic">'মালিক'</span> (দ্বিতীয় পক্ষ) হিসেবে অভিহিত করা হবে।
                     </span>
                   )}
                 </p>
@@ -156,16 +213,49 @@ export default function ProfessionalAgreement() {
               <p>মালিক নিম্নোক্ত সম্পত্তির বিপণন এবং বিক্রয়ের জন্য নেস্টভাইবকে একমাত্র বা বিশেষ এজেন্সি হিসেবে নিযুক্ত করছেন:</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-4">
                 <div className="flex flex-col gap-2">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">প্রকল্পের নাম</span>
-                  {isEditing ? <Input size="sm" variant="bordered" placeholder="প্রকল্পের নাম" value={doc.projectName} onChange={(e) => setDoc({ ...doc, projectName: e.target.value })} /> : <span className="font-semibold">{doc.projectName}</span>}
+                  <label className="text-[11px] uppercase font-black text-slate-400 tracking-wider">প্রকল্পের নাম</label>
+                  {isEditing ? (
+                    <Input
+                      size="sm"
+                      variant="bordered"
+                      placeholder="প্রকল্পের নাম লিখুন..."
+                      classNames={{ input: "placeholder:opacity-10" }}
+                      value={doc.projectName}
+                      onChange={(e) => setDoc({ ...doc, projectName: e.target.value })}
+                    />
+                  ) : (
+                    <span className="font-semibold text-slate-800">{doc.projectName}</span>
+                  )}
                 </div>
                 <div className="flex flex-col gap-2 md:col-span-2">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">ঠিকানা</span>
-                  {isEditing ? <Input size="sm" variant="bordered" placeholder="সম্পত্তির ঠিকানা" value={doc.propertyAddress} onChange={(e) => setDoc({ ...doc, propertyAddress: e.target.value })} /> : <span className="font-semibold">{doc.propertyAddress}</span>}
+                  <label className="text-[11px] uppercase font-black text-slate-400 tracking-wider">সম্পত্তির ঠিকানা</label>
+                  {isEditing ? (
+                    <Input
+                      size="sm"
+                      variant="bordered"
+                      placeholder="বিস্তারিত ঠিকানা লিখুন..."
+                      classNames={{ input: "placeholder:opacity-10" }}
+                      value={doc.propertyAddress}
+                      onChange={(e) => setDoc({ ...doc, propertyAddress: e.target.value })}
+                    />
+                  ) : (
+                    <span className="font-semibold text-slate-800">{doc.propertyAddress}</span>
+                  )}
                 </div>
                 <div className="flex flex-col gap-2 md:col-span-2">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">ফ্ল্যাটের বিবরণ</span>
-                  {isEditing ? <Input size="sm" variant="bordered" placeholder="ফ্ল্যাটের বিবরণ" value={doc.flatDetails} onChange={(e) => setDoc({ ...doc, flatDetails: e.target.value })} /> : <span className="font-semibold">{doc.flatDetails}</span>}
+                  <label className="text-[11px] uppercase font-black text-slate-400 tracking-wider">ফ্ল্যাটের বিবরণ</label>
+                  {isEditing ? (
+                    <Input
+                      size="sm"
+                      variant="bordered"
+                      placeholder="ফ্ল্যাটের বিবরণ লিখুন..."
+                      classNames={{ input: "placeholder:opacity-10" }}
+                      value={doc.flatDetails}
+                      onChange={(e) => setDoc({ ...doc, flatDetails: e.target.value })}
+                    />
+                  ) : (
+                    <span className="font-semibold text-slate-800">{doc.flatDetails}</span>
+                  )}
                 </div>
               </div>
             </section>
@@ -173,7 +263,23 @@ export default function ProfessionalAgreement() {
             {/* ২. কমিশন */}
             <section className="space-y-2">
               <h3 className="font-bold text-slate-800">২. কমিশন ও পরিশোধের শর্তাবলী</h3>
-              <p><strong>২.১ হার:</strong> মালিক মোট বিক্রয়মূল্যের ওপর {isEditing ? <Input size="sm" variant="bordered" className="w-24 inline-block mx-2 translate-y-1" value={doc.commissionRate} onChange={(e) => setDoc({ ...doc, commissionRate: e.target.value })} /> : <span className="font-bold"> {doc.commissionRate} </span>} হারে কমিশন প্রদান করতে সম্মত হয়েছেন।</p>
+              <p className="flex flex-wrap items-center gap-x-2">
+                <strong>২.১ হার:</strong> মালিক মোট বিক্রয়মূল্যের ওপর
+                {isEditing ? (
+                  <Input
+                    size="sm"
+                    variant="bordered"
+                    className="w-24 h-8"
+                    placeholder="হার লিখুন..."
+                    classNames={{ input: "placeholder:opacity-10 text-center" }}
+                    value={doc.commissionRate}
+                    onChange={(e) => setDoc({ ...doc, commissionRate: e.target.value })}
+                  />
+                ) : (
+                  <span className="font-bold underline decoration-[#005B6E]/30 px-1"> {doc.commissionRate} </span>
+                )}
+                হারে কমিশন প্রদান করতে সম্মত হয়েছেন।
+              </p>
               <p><strong>২.২ কমিশনের অধিকার:</strong> ফ্ল্যাট বুকিং বা বায়না দলিল সম্পন্ন হওয়া মাত্রই এজেন্সি কমিশনের অধিকারী হবে।</p>
               <p><strong>২.৩ পরিশোধ:</strong> ক্রেতার নিকট থেকে ফ্ল্যাটের মূল্যের ২৫% আদায় হলে কমিশনের ৫০% এবং বাকি ৫০% রেজিস্ট্রেশনের আগে পরিশোধযোগ্য।</p>
             </section>
@@ -192,17 +298,63 @@ export default function ProfessionalAgreement() {
 
             {/* ৫ ও ৬ নং শর্ত */}
             <section className="space-y-4">
-              <p><strong>৫. দণ্ড:</strong> ভুল তথ্য প্রদান করলে মালিক মোট মূল্যের {isEditing ? <Input size="sm" variant="bordered" className="w-24 inline-block mx-2 translate-y-1" value={doc.penaltyValue} onChange={(e) => setDoc({ ...doc, penaltyValue: e.target.value })} /> : <span className="font-bold"> {doc.penaltyValue} </span>} টাকা ক্ষতিপূরণ দিতে বাধ্য থাকবেন।</p>
+              <p className="flex flex-wrap items-center gap-x-2">
+                <strong>৫. দণ্ড:</strong> ভুল তথ্য প্রদান করলে মালিক মোট মূল্যের
+                {isEditing ? (
+                  <Input
+                    size="sm"
+                    variant="bordered"
+                    className="w-28 h-8"
+                    placeholder="পরিমাণ..."
+                    classNames={{ input: "placeholder:opacity-10 text-center" }}
+                    value={doc.penaltyValue}
+                    onChange={(e) => setDoc({ ...doc, penaltyValue: e.target.value })}
+                  />
+                ) : (
+                  <span className="font-bold underline decoration-[#005B6E]/30 px-1"> {doc.penaltyValue} </span>
+                )}
+                টাকা ক্ষতিপূরণ দিতে বাধ্য থাকবেন।
+              </p>
 
               {showFinishing && (
                 <div className="p-4 bg-slate-50 border-l-4 border-[#005B6E] print:bg-white print:border-l-0 print:p-0">
-                  <p><strong>৬. ফিনিশিং কাজ ও হস্তান্তর:</strong> মালিক গ্যারান্টি দিচ্ছেন যে অবশিষ্ট কাজ {isEditing ? <Input size="sm" variant="bordered" className="w-16 inline-block mx-2 translate-y-1" value={doc.finishingDays} onChange={(e) => setDoc({ ...doc, finishingDays: e.target.value })} /> : <span className="font-bold"> {doc.finishingDays} </span>} দিনের মধ্যে শেষ হবে।</p>
+                  <p className="flex flex-wrap items-center gap-x-2">
+                    <strong>৬. ফিনিশিং কাজ ও হস্তান্তর:</strong> মালিক গ্যারান্টি দিচ্ছেন যে অবশিষ্ট কাজ
+                    {isEditing ? (
+                      <Input
+                        size="sm"
+                        variant="bordered"
+                        className="w-20 h-8"
+                        placeholder="দিন..."
+                        classNames={{ input: "placeholder:opacity-10 text-center" }}
+                        value={doc.finishingDays}
+                        onChange={(e) => setDoc({ ...doc, finishingDays: e.target.value })}
+                      />
+                    ) : (
+                      <span className="font-bold underline decoration-[#005B6E]/30 px-1"> {doc.finishingDays} </span>
+                    )}
+                    দিনের মধ্যে শেষ হবে।
+                  </p>
                 </div>
               )}
             </section>
 
-            <section className="text-center italic text-slate-400 pt-4 border-t border-slate-100">
-              চুক্তির মেয়াদ: {isEditing ? <Input size="sm" variant="bordered" className="w-16 inline-block mx-2 translate-y-1" value={doc.validityMonths} onChange={(e) => setDoc({ ...doc, validityMonths: e.target.value })} /> : doc.validityMonths} মাস।
+            <section className="text-center italic text-slate-400 pt-4 border-t border-slate-100 flex items-center justify-center gap-2">
+              চুক্তির মেয়াদ:
+              {isEditing ? (
+                <Input
+                  size="sm"
+                  variant="bordered"
+                  className="w-16 h-8"
+                  placeholder="মাস"
+                  classNames={{ input: "placeholder:opacity-10 text-center" }}
+                  value={doc.validityMonths}
+                  onChange={(e) => setDoc({ ...doc, validityMonths: e.target.value })}
+                />
+              ) : (
+                <span className="font-bold text-slate-600">{doc.validityMonths}</span>
+              )}
+              মাস।
             </section>
 
             {/* স্বাক্ষর */}
