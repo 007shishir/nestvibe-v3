@@ -8,7 +8,7 @@ async function verifyAdmin() {
   if (!token) throw new Error('Unauthorized');
   const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback_secret');
   const { payload } = await jwtVerify(token, secret);
-  if (payload.email !== 'islam7.saiful@gmail.com') throw new Error('Forbidden');
+  if (payload.role !== 'admin') throw new Error('Forbidden - Admin only');
 }
 
 export async function GET(req, { params }) {

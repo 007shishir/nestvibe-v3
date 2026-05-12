@@ -7,6 +7,11 @@ const nextConfig = {
     hostname: '**.unsplash.com', // Much safer!
     pathname: '/**',
   },
+  {
+    protocol: 'https',
+    hostname: '**i.ibb.co.com', // Much safer!
+    pathname: '/**',
+  },
     ],
   },
 };

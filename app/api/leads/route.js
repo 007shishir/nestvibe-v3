@@ -1,4 +1,6 @@
 import clientPromise from '@/lib/mongodb';
+import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
 
 export async function POST(req) {
   try {
@@ -22,8 +24,21 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
+export async function GET(req) {
   try {
+    // Admin only endpoint
+    const token = cookies().get('auth-token')?.value;
+    if (!token) {
+      return new Response(JSON.stringify({ success: false, error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+    }
+    
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback_secret');
+    const { payload } = await jwtVerify(token, secret);
+    
+    if (payload.role !== 'admin') {
+      return new Response(JSON.stringify({ success: false, error: 'Forbidden - Admin only' }), { status: 403, headers: { 'Content-Type': 'application/json' } });
+    }
+
     const client = await clientPromise;
     const db = client.db('nestvibe');
     const leads = await db.collection('leads').find({}).sort({ createdAt: -1 }).toArray();

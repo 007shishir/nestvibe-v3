@@ -36,8 +36,9 @@ export default function AuthPage() {
       const data = await res.json();
 
       if (res.ok) {
-        // Success
-        router.push('/admin');
+        // Redirect based on role
+        const redirectPath = data.user.role === 'admin' ? '/admin' : '/dashboard';
+        router.push(redirectPath);
         router.refresh();
       } else {
         setError(data.error || "Something went wrong.");

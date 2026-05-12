@@ -40,13 +40,13 @@ export async function POST(request) {
 
     // Create token
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback_secret');
-    const token = await new SignJWT({ id: user._id, email: user.email, name: user.name })
+    const token = await new SignJWT({ id: user._id, email: user.email, name: user.name, role: user.role })
       .setProtectedHeader({ alg: 'HS256' })
       .setExpirationTime('7d')
       .sign(secret);
 
     // Set cookie
-    const response = NextResponse.json({ success: true, user: { name: user.name, email: user.email } }, { status: 201 });
+    const response = NextResponse.json({ success: true, user: { name: user.name, email: user.email, role: user.role } }, { status: 201 });
     response.cookies.set('auth-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

@@ -17,7 +17,8 @@ export async function GET(request) {
       user: {
         name: payload.name,
         email: payload.email,
-        id: payload.id
+        id: payload.id,
+        role: payload.role
       }
     });
   } catch (error) {

@@ -75,8 +75,8 @@ export async function POST(req) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'fallback_secret');
     const { payload } = await jwtVerify(token, secret);
     
-    if (payload.email !== 'islam7.saiful@gmail.com') {
-      return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403 });
+    if (payload.role !== 'admin') {
+      return new Response(JSON.stringify({ error: 'Forbidden - Admin only' }), { status: 403 });
     }
 
     const client = await clientPromise;

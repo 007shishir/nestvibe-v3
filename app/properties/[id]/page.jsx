@@ -34,13 +34,12 @@ export default function PropertyDetailsPage({ params }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  // Simulated gallery images (since DB only has one currently)
-  const propertyImages = property ? [
-    property.image,
-    "https://images.unsplash.com/photo-1600607687940-c52af0453724?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"
-  ] : [];
+  // Get property images from database - use images array first, fallback to single image
+  const propertyImages = property 
+    ? (property.images && property.images.length > 0 
+        ? property.images 
+        : (property.image ? [property.image] : []))
+    : [];
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -116,39 +115,61 @@ export default function PropertyDetailsPage({ params }) {
 
       {/* Image Gallery Section */}
       <section className="max-w-7xl mx-auto w-full px-6 mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 h-[400px] md:h-[600px] rounded-[2.5rem] overflow-hidden shadow-2xl relative group">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3 h-[400px] md:h-[600px] rounded-[2.5rem] overflow-hidden shadow-2xl relative group bg-slate-900">
           <div 
-            className="md:col-span-3 h-full relative overflow-hidden cursor-pointer"
-            onClick={() => { setSelectedImageIndex(0); onOpen(); }}
+            className="md:col-span-3 h-full relative overflow-hidden cursor-pointer bg-slate-900 flex items-center justify-center"
+            onClick={() => { propertyImages.length > 0 && setSelectedImageIndex(0); onOpen(); }}
           >
-            <img
-              src={propertyImages[0]}
-              alt={property.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-            />
+            {propertyImages.length > 0 ? (
+              <img
+                src={propertyImages[0]}
+                alt={property.title}
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-1000"
+              />
+            ) : (
+              <div className="text-center">
+                <div className="text-6xl mb-4">📷</div>
+                <p className="text-slate-400 font-bold">No images available</p>
+              </div>
+            )}
           </div>
           <div className="hidden md:grid grid-rows-2 gap-3 h-full">
-            <div 
-              className="relative overflow-hidden cursor-pointer"
-              onClick={() => { setSelectedImageIndex(1); onOpen(); }}
-            >
-              <img
-                src={propertyImages[1] || property.image}
-                className="w-full h-full object-cover brightness-90 hover:brightness-110 transition-all"
-              />
-            </div>
-            <div 
-              className="relative overflow-hidden cursor-pointer"
-              onClick={() => { setSelectedImageIndex(2); onOpen(); }}
-            >
-              <img
-                src={propertyImages[2] || property.image}
-                className="w-full h-full object-cover brightness-75 hover:brightness-110 transition-all"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                <span className="text-white font-black text-xl tracking-tighter">+{propertyImages.length > 3 ? propertyImages.length - 2 : 12}</span>
+            {propertyImages.length > 1 && (
+              <div 
+                className="relative overflow-hidden cursor-pointer bg-slate-900 flex items-center justify-center"
+                onClick={() => { setSelectedImageIndex(1); onOpen(); }}
+              >
+                <img
+                  src={propertyImages[1]}
+                  alt="Property image 2"
+                  className="w-full h-full object-contain brightness-90 hover:brightness-110 transition-all"
+                />
               </div>
-            </div>
+            )}
+            {propertyImages.length > 2 && (
+              <div 
+                className="relative overflow-hidden cursor-pointer bg-slate-900 flex items-center justify-center"
+                onClick={() => { setSelectedImageIndex(2); onOpen(); }}
+              >
+                <img
+                  src={propertyImages[2]}
+                  alt="Property image 3"
+                  className="w-full h-full object-contain brightness-75 hover:brightness-110 transition-all"
+                />
+                {propertyImages.length > 3 && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none">
+                    <span className="text-white font-black text-xl tracking-tighter">
+                      +{propertyImages.length - 2}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+            {propertyImages.length === 1 && (
+              <div className="relative overflow-hidden cursor-pointer row-span-2 bg-slate-900 flex items-center justify-center">
+                <span className="text-slate-400 font-bold">No additional images</span>
+              </div>
+            )}
           </div>
           <div className="absolute top-6 right-6 flex gap-3 z-10">
             <Button isIconOnly radius="full" className="bg-white/90 backdrop-blur-md text-slate-900 shadow-2xl border border-white/20">
@@ -276,7 +297,6 @@ export default function PropertyDetailsPage({ params }) {
                         />
                       </div>
 
-
                       <div className="space-y-2">
                         <label className="text-[11px] font-black uppercase tracking-widest text-slate-500 ml-1">Email Address</label>
                         <Input
@@ -345,75 +365,88 @@ export default function PropertyDetailsPage({ params }) {
 
       <Footer />
 
-      {/* Image Slideshow Modal */}
-      <Modal 
-        size="full" 
-        isOpen={isOpen} 
-        onOpenChange={onOpenChange}
-        hideCloseButton
-        classNames={{
-          base: "bg-black/95",
-          body: "p-0",
-        }}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <ModalBody className="relative flex items-center justify-center h-screen overflow-hidden">
-              {/* Close Button */}
-              <Button 
-                isIconOnly 
-                radius="full" 
-                variant="light" 
-                className="absolute top-6 right-6 text-white hover:bg-white/20 z-50"
-                onClick={onClose}
-              >
-                <X className="w-8 h-8" />
-              </Button>
+      {/* Image Slideshow Modal - FIXED: images no longer overflow screen */}
+      {propertyImages.length > 0 && (
+        <Modal 
+          size="full" 
+          isOpen={isOpen} 
+          onOpenChange={onOpenChange}
+          hideCloseButton
+          classNames={{
+            base: "bg-black/95",
+            body: "p-0 overflow-hidden",
+          }}
+        >
+          <ModalContent>
+            {(onClose) => (
+              <ModalBody className="relative flex items-center justify-center h-screen w-screen overflow-hidden">
+                {/* Close Button */}
+                <Button 
+                  isIconOnly 
+                  radius="full" 
+                  variant="light" 
+                  className="absolute top-6 right-6 text-white hover:bg-white/20 z-50"
+                  onClick={onClose}
+                >
+                  <X className="w-8 h-8" />
+                </Button>
 
-              {/* Navigation Arrows */}
-              <Button 
-                isIconOnly 
-                radius="full" 
-                variant="light" 
-                className="absolute left-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 z-50 h-16 w-16"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedImageIndex((prev) => (prev === 0 ? propertyImages.length - 1 : prev - 1));
-                }}
-              >
-                <ChevronLeft className="w-10 h-10" />
-              </Button>
+                {/* Navigation Arrows */}
+                {propertyImages.length > 1 && (
+                  <>
+                    <Button 
+                      isIconOnly 
+                      radius="full" 
+                      variant="light" 
+                      className="absolute left-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 z-50 h-16 w-16"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImageIndex((prev) => (prev === 0 ? propertyImages.length - 1 : prev - 1));
+                      }}
+                    >
+                      <ChevronLeft className="w-10 h-10" />
+                    </Button>
 
-              <Button 
-                isIconOnly 
-                radius="full" 
-                variant="light" 
-                className="absolute right-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 z-50 h-16 w-16"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedImageIndex((prev) => (prev === propertyImages.length - 1 ? 0 : prev + 1));
-                }}
-              >
-                <ChevronRight className="w-10 h-10" />
-              </Button>
+                    <Button 
+                      isIconOnly 
+                      radius="full" 
+                      variant="light" 
+                      className="absolute right-6 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 z-50 h-16 w-16"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImageIndex((prev) => (prev === propertyImages.length - 1 ? 0 : prev + 1));
+                      }}
+                    >
+                      <ChevronRight className="w-10 h-10" />
+                    </Button>
+                  </>
+                )}
 
-              {/* Main Image */}
-              <div className="w-full h-full flex items-center justify-center p-4 md:p-12">
-                <img 
-                  src={propertyImages[selectedImageIndex]} 
-                  alt={`Property Image ${selectedImageIndex + 1}`}
-                  className="max-w-full max-h-full object-contain shadow-2xl rounded-lg select-none"
-                />
-              </div>
+                {/* Main Image Container - enforced viewport constraints */}
+                <div className="flex items-center justify-center w-full h-full p-4 md:p-8">
+                  <img 
+                    src={propertyImages[selectedImageIndex]} 
+                    alt={`Property Image ${selectedImageIndex + 1}`}
+                    className="max-w-[95vw] max-h-[95vh] object-contain shadow-2xl rounded-lg select-none"
+                    style={{ 
+                      width: 'auto', 
+                      height: 'auto', 
+                      maxWidth: '95vw', 
+                      maxHeight: '95vh',
+                      objectFit: 'contain'
+                    }}
+                  />
+                </div>
 
-              {/* Counter */}
-              <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white font-black tracking-widest text-sm bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
-                {selectedImageIndex + 1} / {propertyImages.length}
-              </div>
-            </ModalBody>
-          )}
-        </ModalContent>
-      </Modal>
+                {/* Counter */}
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white font-black tracking-widest text-sm bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
+                  {selectedImageIndex + 1} / {propertyImages.length}
+                </div>
+              </ModalBody>
+            )}
+          </ModalContent>
+        </Modal>
+      )}
     </main>
   );
 }
